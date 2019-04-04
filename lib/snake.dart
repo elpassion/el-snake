@@ -11,7 +11,7 @@ class Snake {
 
   Snake(this.game, double x, double y) {
     points = [Point(x, y)];
-    velocity = Point(0, 0);
+    velocity = Point(100, 0);
     paint.color = Color(0xffff0000);
   }
 
@@ -20,6 +20,12 @@ class Snake {
   }
 
   void update(double t) {
+    var head = points.last;
+    var newHead = Point(head.x + velocity.x * t, head.y + velocity.y * t);
 
+    points.add(newHead);
+
+    if (points.length > 100)
+      points.removeAt(0);
   }
 }
