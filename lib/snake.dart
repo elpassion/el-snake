@@ -17,8 +17,8 @@ class Snake {
 
   Point<double> get head => points.last;
 
-  Snake(this.game, double x, double y) {
-    points = [Point(x, y)];
+  Snake(this.game, Point<double> startPoint) {
+    points = [startPoint];
     velocity = Point(0, 0);
     headPaint.style = PaintingStyle.fill;
     tailPaint.style = PaintingStyle.stroke;

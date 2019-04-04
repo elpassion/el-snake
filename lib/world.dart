@@ -4,10 +4,11 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 
 class World {
-  final radius = 500.0;
+  final Point<double> center;
+  final double radius;
   final stroke = 16.0;
 
-  Point<double> get center => Point(0, 0);
+  World(this.center, this.radius);
 
   void render(Canvas canvas) {
     Paint bgPaint = Paint();
@@ -15,7 +16,7 @@ class World {
     bgPaint.style = PaintingStyle.stroke;
     bgPaint.strokeWidth = stroke;
 
-    canvas.drawCircle(Offset(0, 0), radius, bgPaint);
+    canvas.drawCircle(Offset(center.x, center.y), radius, bgPaint);
   }
 
   void update(double t) {}

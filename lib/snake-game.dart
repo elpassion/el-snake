@@ -19,6 +19,8 @@ class SnakeGame extends Game {
   Snake snake;
   RestartButton restartButton;
 
+  Point<double> get center => Point(screenSize.width / 2, screenSize.height / 2);
+
   SnakeGame() {
     initialize();
   }
@@ -26,9 +28,13 @@ class SnakeGame extends Game {
   void initialize() async {
     Firestore.instance.collection("game").snapshots().listen(onData);
     resize(await Flame.util.initialDimensions());
-    world = World();
-    snake = Snake(this, screenSize.width / 2, screenSize.height / 2);
-    restartButton = RestartButton(screenSize.width / 2, screenSize.height / 2);
+    world = World(center, 750.0);
+    spawnNewSnake();
+    restartButton = RestartButton(center);
+  }
+
+  void spawnNewSnake() {
+    snake = Snake(this, center);
   }
 
   void resize(Size size) {
@@ -61,6 +67,18 @@ class SnakeGame extends Game {
 
   void onForce(Force force) {
     snake.velocity = Point(force.x * forceFactor, -force.y * forceFactor);
+  }
+
+  void onTapDown(TapDownDetails tap) {
+    if (snake.isDead) {
+      restartGame();
+    }
+  }
+
+  void restartGame() {
+    dx = 0;
+    dy = 0;
+    spawnNewSnake();
   }
 
   bool collidesWithWorld() {
