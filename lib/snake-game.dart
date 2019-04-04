@@ -1,4 +1,6 @@
 import 'dart:ui';
+
+import 'package:el_snake/force.dart';
 import 'package:el_snake/snake.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
@@ -6,6 +8,7 @@ import 'package:flame/game.dart';
 class SnakeGame extends Game {
   Size screenSize;
   Snake snake;
+  Force force;
 
   SnakeGame() {
     initialize();
