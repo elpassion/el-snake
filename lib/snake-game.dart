@@ -6,6 +6,8 @@ import 'package:el_snake/snake.dart';
 import 'package:el_snake/world.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 
 class SnakeGame extends Game {
   final forceFactor = 50;
@@ -19,6 +21,7 @@ class SnakeGame extends Game {
   }
 
   void initialize() async {
+    Firestore.instance.collection("game").snapshots().listen(onData);
     resize(await Flame.util.initialDimensions());
     world = World();
     snake = Snake(this, screenSize.width / 2, screenSize.height / 2);
@@ -52,5 +55,9 @@ class SnakeGame extends Game {
   bool collidesWithWorld() {
     var distanceToCenter = snake.head.distanceTo(world.center);
     return distanceToCenter + snake.radius >= world.radius - world.stroke / 2;
+  }
+
+  void onData(QuerySnapshot event) {
+    print(event);
   }
 }
