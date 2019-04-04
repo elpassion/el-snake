@@ -1,13 +1,14 @@
 import 'dart:math';
 import 'dart:ui';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:el_snake/explosion.dart';
 import 'package:el_snake/force.dart';
 import 'package:el_snake/restart-button.dart';
 import 'package:el_snake/snake.dart';
 import 'package:el_snake/world.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class SnakeGame extends Game {
@@ -18,8 +19,10 @@ class SnakeGame extends Game {
   World world;
   Snake snake;
   RestartButton restartButton;
+  List<Explosion> explosions = [];
 
-  Point<double> get center => Point(screenSize.width / 2, screenSize.height / 2);
+  Point<double> get center =>
+      Point(screenSize.width / 2, screenSize.height / 2);
 
   SnakeGame() {
     initialize();
@@ -49,14 +52,17 @@ class SnakeGame extends Game {
     canvas.translate(dx, dy);
     world.render(canvas);
     snake.render(canvas);
+    explosions.forEach((Explosion explosion) => explosion.render(canvas));
   }
 
   void update(double t) {
     updateCamera();
-    if (collidesWithWorld()) {
+    if (!snake.isDead && collidesWithWorld()) {
       snake.isDead = true;
+      explosions.add(Explosion(snake.head));
     }
     snake.update(t);
+    explosions.forEach((Explosion explosion) => explosion.update(t));
   }
 
   void updateCamera() {
@@ -78,6 +84,7 @@ class SnakeGame extends Game {
   void restartGame() {
     dx = 0;
     dy = 0;
+    explosions.clear();
     spawnNewSnake();
   }
 
