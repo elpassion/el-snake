@@ -24,10 +24,9 @@ class SnakeGame extends Game {
     var dx = -snakeHead.x + screenSize.width / 2;
     var dy = -snakeHead.y + screenSize.height / 2;
     canvas.translate(dx, dy);
-    Rect bgRect = Rect.fromLTWH(0, 0, screenSize.width, screenSize.height);
     Paint bgPaint = Paint();
-    bgPaint.color = Color(0xffaabbcc);
-    canvas.drawRect(bgRect, bgPaint);
+    bgPaint.color = Color(0xff116611);
+    canvas.drawCircle(Offset(0, 0), 500, bgPaint);
     snake.render(canvas);
   }
 
