@@ -32,13 +32,13 @@ class Snake {
   void renderTail(Canvas canvas) {
     for (var i = 1; i < points.length - 1; i++) {
       var hue = points[i].distanceTo(head) % 360;
-      tailPaint.color = HSLColor.fromAHSL(1.0, hue, 1.0, 0.5).toColor();
+      tailPaint.color = HSLColor.fromAHSL(1.0, hue, 1.0, 0.4).toColor();
       canvas.drawCircle(Offset(points[i].x, points[i].y), radius, tailPaint);
     }
   }
 
   void renderHead(Canvas canvas) {
-    headPaint.color = HSLColor.fromAHSL(0.7, 0, 0.5, 0.5).toColor();
+    headPaint.color = HSLColor.fromAHSL(0.8, 0, 1.0, 0.4).toColor();
     canvas.drawCircle(Offset(head.x, head.y), radius, headPaint);
   }
 
