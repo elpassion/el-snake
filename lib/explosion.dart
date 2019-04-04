@@ -15,7 +15,9 @@ class Explosion {
   }
 
   void render(Canvas canvas) {
-    canvas.drawCircle(Offset(point.x, point.y), radius, paint);
+    for (var i = 0; i < 20; i++) {
+      canvas.drawCircle(Offset(point.x, point.y), radius - 30 * i, paint);
+    }
   }
 
   void update(double t) {
