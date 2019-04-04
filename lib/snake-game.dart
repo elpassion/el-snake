@@ -3,12 +3,14 @@ import 'dart:ui';
 
 import 'package:el_snake/force.dart';
 import 'package:el_snake/snake.dart';
+import 'package:el_snake/world.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 
 class SnakeGame extends Game {
   final int forceFactor = 50;
   Size screenSize;
+  World world;
   Snake snake;
 
   SnakeGame() {
@@ -17,6 +19,7 @@ class SnakeGame extends Game {
 
   void initialize() async {
     resize(await Flame.util.initialDimensions());
+    world = World();
     snake = Snake(this, screenSize.width / 2, screenSize.height / 2);
   }
 
@@ -25,9 +28,7 @@ class SnakeGame extends Game {
     var dx = -snakeHead.x + screenSize.width / 2;
     var dy = -snakeHead.y + screenSize.height / 2;
     canvas.translate(dx, dy);
-    Paint bgPaint = Paint();
-    bgPaint.color = Color(0xff114411);
-    canvas.drawCircle(Offset(0, 0), 500, bgPaint);
+    world.render(canvas);
     snake.render(canvas);
   }
 

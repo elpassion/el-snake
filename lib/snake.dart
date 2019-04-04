@@ -27,7 +27,7 @@ class Snake {
   void renderTail(Canvas canvas) {
     for (var i = 1; i < points.length - 1; i++) {
       var hue = points[i].distanceTo(points[points.length - 1]) % 360;
-      tailPaint.color = HSLColor.fromAHSL(1.0, hue, 0.5, 0.5).toColor();
+      tailPaint.color = HSLColor.fromAHSL(1.0, hue, 1.0, 0.5).toColor();
       canvas.drawCircle(Offset(points[i].x, points[i].y), 16, tailPaint);
     }
   }
