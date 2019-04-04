@@ -8,6 +8,7 @@ class Snake {
   List<Point<double>> points;
   Point<double> velocity;
   Paint paint = Paint();
+  var length = 70;
 
   Snake(this.game, double x, double y) {
     points = [Point(x, y)];
@@ -16,7 +17,8 @@ class Snake {
   }
 
   void render(Canvas canvas) {
-    points.forEach((Point<double> point) => canvas.drawCircle(Offset(point.x, point.y), 16, paint));
+    points.forEach((Point<double> point) =>
+        canvas.drawCircle(Offset(point.x, point.y), 16, paint));
   }
 
   void update(double t) {
@@ -24,8 +26,20 @@ class Snake {
     var newHead = Point(head.x + velocity.x * t, head.y + velocity.y * t);
 
     points.add(newHead);
+    updateTail();
+  }
 
-    if (points.length > 100)
-      points.removeAt(0);
+  void updateTail() {
+    var tailLength = 0.0;
+    var lastIndex = 0;
+    for (var i = points.length - 1; i > 0; i--) {
+      var distance = points[i].distanceTo(points[i - 1]);
+      tailLength += distance;
+      if (tailLength > length) {
+        lastIndex = i;
+        break;
+      }
+    }
+    points = points.sublist(lastIndex, points.length);
   }
 }
