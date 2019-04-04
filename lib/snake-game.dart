@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 
 class SnakeGame extends Game {
   final forceFactor = 50;
+  final collectionPath = "game";
 
   Size screenSize;
   var dx, dy;
@@ -29,15 +30,14 @@ class SnakeGame extends Game {
   }
 
   void initialize() async {
-    Firestore.instance.collection("game").snapshots().listen(onData);
     resize(await Flame.util.initialDimensions());
     world = World(center, 750.0);
-    spawnNewSnake();
+    Firestore.instance.collection(collectionPath).snapshots().listen(this.onDataLoaded);
     restartButton = RestartButton(center);
   }
 
-  void spawnNewSnake() {
-    snake = Snake(this, center);
+  void onDataLoaded(QuerySnapshot event) {
+    snake = Snake(event.documents.last.documentID, this, center);
   }
 
   void resize(Size size) {
@@ -63,6 +63,7 @@ class SnakeGame extends Game {
     }
     snake.update(t);
     explosions.forEach((Explosion explosion) => explosion.update(t));
+    increaseSnakeLength(snake.id, snake.length);
   }
 
   void updateCamera() {
@@ -85,7 +86,8 @@ class SnakeGame extends Game {
     dx = 0;
     dy = 0;
     explosions.clear();
-    spawnNewSnake();
+    snake = Snake(snake.id, this, center);
+    setDefaultSnakeLength(snake.id);
   }
 
   bool collidesWithWorld() {
@@ -93,7 +95,19 @@ class SnakeGame extends Game {
     return distanceToCenter + snake.radius >= world.radius - world.stroke / 2;
   }
 
-  void onData(QuerySnapshot event) {
+  void onDataChanged(QuerySnapshot event) {
     print(event);
+  }
+
+  void increaseSnakeLength(String documentId, int snakeLength) {
+    var data = Map<String, int>();
+    data["length"] = snakeLength++;
+    Firestore.instance.collection(collectionPath).document(documentId).updateData(data);
+  }
+
+  void setDefaultSnakeLength(String documentId) {
+    var data = Map<String, int>();
+    data["length"] = 0;
+    Firestore.instance.collection(collectionPath).document(documentId).updateData(data);
   }
 }

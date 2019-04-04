@@ -9,6 +9,7 @@ class Snake {
   final radius = 16.0;
   final length = 400;
 
+  String id;
   List<Point<double>> points;
   Point<double> velocity;
   Paint headPaint = Paint();
@@ -17,7 +18,8 @@ class Snake {
 
   Point<double> get head => points.last;
 
-  Snake(this.game, Point<double> startPoint) {
+  Snake(id, this.game, Point<double> startPoint) {
+    this.id = id;
     points = [startPoint];
     velocity = Point(0, 0);
     headPaint.style = PaintingStyle.fill;
