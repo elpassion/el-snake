@@ -9,7 +9,7 @@ class Snake {
   List<Point<double>> points;
   Point<double> velocity;
   Paint paint = Paint();
-  var length = 70;
+  var length = 400;
 
   Snake(this.game, double x, double y) {
     points = [Point(x, y)];
@@ -19,7 +19,7 @@ class Snake {
 
   void render(Canvas canvas) {
     for (var i = 0; i < points.length - 1; i++) {
-      var hue = (i.toDouble() * 5) % 360;
+      var hue = ((points.length - 1 - i).toDouble() * 5) % 360;
       paint.color = HSLColor.fromAHSL(1.0, hue, 0.5, 0.5).toColor();
       canvas.drawCircle(Offset(points[i].x, points[i].y), 16, paint);
     }
