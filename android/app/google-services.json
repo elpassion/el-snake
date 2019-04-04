@@ -1,0 +1,44 @@
+{
+  "project_info": {
+    "project_number": "407198304277",
+    "firebase_url": "https://el-snake.firebaseio.com",
+    "project_id": "el-snake",
+    "storage_bucket": "el-snake.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:407198304277:android:636c4e3344595da8",
+        "android_client_info": {
+          "package_name": "com.example.el_snake"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "407198304277-ivtraccs7tn13l7j25m703fcfko3vki7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.el_snake",
+            "certificate_hash": "23f8b7c438efc7b69784acd7b45fc3bbd061a15e"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_pTqZEsucWUTaeL0HrkTagdqMxJnogFE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "407198304277-i1eba778as7qlchth2dihki977ahvf58.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
