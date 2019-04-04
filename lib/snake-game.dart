@@ -8,7 +8,8 @@ import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 
 class SnakeGame extends Game {
-  final int forceFactor = 50;
+  final forceFactor = 50;
+
   Size screenSize;
   World world;
   Snake snake;
@@ -33,6 +34,9 @@ class SnakeGame extends Game {
   }
 
   void update(double t) {
+    if (collidesWithWorld()) {
+      snake.isDead = true;
+    }
     snake.update(t);
   }
 
@@ -43,5 +47,10 @@ class SnakeGame extends Game {
 
   void onForce(Force force) {
     snake.velocity = Point(force.x * forceFactor, -force.y * forceFactor);
+  }
+
+  bool collidesWithWorld() {
+    var distanceToCenter = snake.head.distanceTo(world.center);
+    return distanceToCenter + snake.radius >= world.radius - world.stroke / 2;
   }
 }

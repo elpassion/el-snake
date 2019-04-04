@@ -6,11 +6,16 @@ import 'package:flutter/material.dart';
 
 class Snake {
   final SnakeGame game;
+  final radius = 16.0;
+  final length = 400;
+
   List<Point<double>> points;
   Point<double> velocity;
   Paint headPaint = Paint();
   Paint tailPaint = Paint();
-  var length = 400;
+  bool isDead = false;
+
+  Point<double> get head => points.last;
 
   Snake(this.game, double x, double y) {
     points = [Point(x, y)];
@@ -26,23 +31,23 @@ class Snake {
 
   void renderTail(Canvas canvas) {
     for (var i = 1; i < points.length - 1; i++) {
-      var hue = points[i].distanceTo(points[points.length - 1]) % 360;
+      var hue = points[i].distanceTo(head) % 360;
       tailPaint.color = HSLColor.fromAHSL(1.0, hue, 1.0, 0.5).toColor();
-      canvas.drawCircle(Offset(points[i].x, points[i].y), 16, tailPaint);
+      canvas.drawCircle(Offset(points[i].x, points[i].y), radius, tailPaint);
     }
   }
 
   void renderHead(Canvas canvas) {
     headPaint.color = HSLColor.fromAHSL(0.7, 0, 0.5, 0.5).toColor();
-    canvas.drawCircle(Offset(points[points.length - 1].x, points[points.length - 1].y), 16, headPaint);
+    canvas.drawCircle(Offset(head.x, head.y), radius, headPaint);
   }
 
   void update(double t) {
-    var head = points.last;
-    var newHead = Point(head.x + velocity.x * t, head.y + velocity.y * t);
-
-    points.add(newHead);
-    updateTail();
+    if (!isDead) {
+      var newHead = Point(head.x + velocity.x * t, head.y + velocity.y * t);
+      points.add(newHead);
+      updateTail();
+    }
   }
 
   void updateTail() {
