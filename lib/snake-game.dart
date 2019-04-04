@@ -7,6 +7,7 @@ import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 
 class SnakeGame extends Game {
+  final int forceFactor = 50;
   Size screenSize;
   Snake snake;
 
@@ -40,6 +41,6 @@ class SnakeGame extends Game {
   }
 
   void onForce(Force force) {
-    snake.velocity = Point(force.x * 20, -force.y * 20);
+    snake.velocity = Point(force.x * forceFactor, -force.y * forceFactor);
   }
 }

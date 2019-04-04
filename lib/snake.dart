@@ -8,22 +8,33 @@ class Snake {
   final SnakeGame game;
   List<Point<double>> points;
   Point<double> velocity;
-  Paint paint = Paint();
+  Paint headPaint = Paint();
+  Paint tailPaint = Paint();
   var length = 400;
 
   Snake(this.game, double x, double y) {
     points = [Point(x, y)];
     velocity = Point(0, 0);
-    paint.color = Color(0xffff0000);
+    headPaint.style = PaintingStyle.fill;
+    tailPaint.style = PaintingStyle.stroke;
   }
 
   void render(Canvas canvas) {
-    for (var i = 0; i < points.length - 1; i++) {
+    renderTail(canvas);
+    renderHead(canvas);
+  }
+
+  void renderTail(Canvas canvas) {
+    for (var i = 1; i < points.length - 1; i++) {
       var hue = points[i].distanceTo(points[points.length - 1]) % 360;
-      paint.color = HSLColor.fromAHSL(1.0, hue, 0.5, 0.5).toColor();
-      paint.style = PaintingStyle.stroke;
-      canvas.drawCircle(Offset(points[i].x, points[i].y), 16, paint);
+      tailPaint.color = HSLColor.fromAHSL(1.0, hue, 0.5, 0.5).toColor();
+      canvas.drawCircle(Offset(points[i].x, points[i].y), 16, tailPaint);
     }
+  }
+
+  void renderHead(Canvas canvas) {
+    headPaint.color = HSLColor.fromAHSL(0.7, 0, 0.5, 0.5).toColor();
+    canvas.drawCircle(Offset(points[points.length - 1].x, points[points.length - 1].y), 16, headPaint);
   }
 
   void update(double t) {
