@@ -26,7 +26,6 @@ class Snake {
   }
 
   void update(double t) {
-    velocity = Point(0, game.force.y * 10);
     var head = points.last;
     var newHead = Point(head.x + velocity.x * t, head.y + velocity.y * t);
 

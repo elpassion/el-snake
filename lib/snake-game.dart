@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:el_snake/force.dart';
@@ -8,7 +9,6 @@ import 'package:flame/game.dart';
 class SnakeGame extends Game {
   Size screenSize;
   Snake snake;
-  Force force;
 
   SnakeGame() {
     initialize();
@@ -34,5 +34,9 @@ class SnakeGame extends Game {
   void resize(Size size) {
     screenSize = size;
     super.resize(size);
+  }
+
+  void onForce(Force force) {
+    snake.velocity = Point(force.x * 20, force.y * 20);
   }
 }
