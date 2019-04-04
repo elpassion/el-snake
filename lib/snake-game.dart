@@ -37,6 +37,6 @@ class SnakeGame extends Game {
   }
 
   void onForce(Force force) {
-    snake.velocity = Point(force.x * 20, force.y * 20);
+    snake.velocity = Point(force.x * 20, -force.y * 20);
   }
 }
