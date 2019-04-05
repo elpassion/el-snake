@@ -55,8 +55,8 @@ class Snake {
       var newHead = Circle(
           Point(head.center.x + velocity.x * t, head.center.y + velocity.y * t),
           radius,
-          Material(0, 0, 0, 0, false, 0),
-          Material(0, 0, 0, 0, false, 0),
+          Material(1.0, 5, 0.5, 0.5, false, 0),
+          Material(1.0, 5, 0.5, 0.5, false, 0),
           id);
       circles.add(newHead);
       updateTail();
