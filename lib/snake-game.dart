@@ -2,6 +2,7 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:el_snake/circle.dart';
 import 'package:el_snake/explosion.dart';
 import 'package:el_snake/firebase-client.dart';
 import 'package:el_snake/force.dart';
@@ -22,6 +23,7 @@ class SnakeGame extends Game {
   World world;
   Snake snake;
   RestartButton restartButton;
+  List<Circle> circles = [];
   List<Explosion> explosions = [];
   FirebaseClient client;
   int magicCounter = 200;
@@ -37,7 +39,7 @@ class SnakeGame extends Game {
     resize(await Flame.util.initialDimensions());
     world = World(center, 750.0);
     snake = Snake(RandomString(16), this, center);
-    client = FirebaseClient(snake);
+    client = FirebaseClient(this, snake);
     restartButton = RestartButton(center);
   }
 
@@ -50,6 +52,7 @@ class SnakeGame extends Game {
     canvas.translate(cameraPosition.x, cameraPosition.y);
     world.render(canvas);
     snake.render(canvas);
+    circles.forEach((Circle circle) => circle.render(canvas));
     explosions.forEach((Explosion explosion) => explosion.render(canvas));
     canvas.translate(-cameraPosition.x, -cameraPosition.y);
     if (snake.isDead) {

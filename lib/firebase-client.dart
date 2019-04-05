@@ -3,13 +3,15 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:el_snake/circle.dart';
 import 'package:el_snake/material.dart';
+import 'package:el_snake/snake-game.dart';
 import 'package:el_snake/snake.dart';
 
 class FirebaseClient {
+  final SnakeGame game;
   final Snake snake;
   var collectionPath = "servers/OYyJukO28ZPXWbKR42Yx/circles";
 
-  FirebaseClient(this.snake) {
+  FirebaseClient(this.game, this.snake) {
     Firestore.instance
         .collection(collectionPath)
         .snapshots()
@@ -18,11 +20,10 @@ class FirebaseClient {
 
   void onDataLoaded(QuerySnapshot event) {
     print(event.documents.first.data);
-    List<Circle> circles = event.documents
+    game.circles = event.documents
         .map((DocumentSnapshot snapshot) => toCircle(snapshot.data))
         .where((Circle circle) => circle != null && circle.radius != null)
         .toList();
-    print("circles: $circles");
   }
 
   void updateMyCircles() async {
