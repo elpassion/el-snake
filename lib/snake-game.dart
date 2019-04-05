@@ -73,7 +73,7 @@ class SnakeGame extends Game {
 
   void update(double t) {
     updateCamera();
-    if (!snake.isDead && collidesWithAnything(snake)) {
+    if (!snake.isDead && (collidesWithAnything(snake) || collidesWithBots(snake))) {
       snake.isDead = true;
       explosions.add(Explosion(snake.head.center));
     }
@@ -103,6 +103,14 @@ class SnakeGame extends Game {
   bool collidesWithDeadlyCircle(Snake snake) {
     if (snake.head.center.distanceTo(world.center) > snake.head.radius * 3) {
       return circles.any((Circle c) => snake.head.collidesWith(c));
+    } else {
+      return false;
+    }
+  }
+
+  bool collidesWithBots(Snake snake) {
+    if (snake.head.center.distanceTo(world.center) > snake.head.radius * 4) {
+      return botSnakes.any((Snake bot) => bot.circles.any((Circle circle) => snake.head.collidesWith(circle)));
     } else {
       return false;
     }
