@@ -46,7 +46,7 @@ class World {
 
   void update(double t) {
     stars.forEach((Star star) {
-      if (star.point.distanceTo(center) > radius + 100) {
+      if (isStarTooFar(star)) {
         star.flipVelocity();
       }
       star.update(t);
@@ -61,5 +61,9 @@ class World {
           Point(random.nextDouble() * 50 - 25, random.nextDouble() * 50 - 25);
       stars.add(Star(Point(x, y), velocity, (random.nextDouble() * 3) + 1));
     }
+  }
+
+  bool isStarTooFar(Star star) {
+    return (star.point + star.velocity).distanceTo(center) > radius + 100;
   }
 }
