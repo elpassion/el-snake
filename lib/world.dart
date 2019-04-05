@@ -8,6 +8,7 @@ class World {
   final Point<double> center;
   final double radius;
   final stroke = 16.0;
+  final edgesCount = 5;
   final random = Random();
 
   Paint edgePaint;
@@ -36,9 +37,10 @@ class World {
   }
 
   void renderEdges(Canvas canvas) {
-    canvas.drawCircle(Offset(center.x, center.y), radius, edgePaint);
-    for (var i = 1; i < 5; i++) {
-      canvas.drawCircle(Offset(center.x, center.y), radius * (i / 5), inactiveEdgePaint);
+    var c = Offset(center.x, center.y);
+    canvas.drawCircle(c, radius, edgePaint);
+    for (var i = 1; i < edgesCount; i++) {
+      canvas.drawCircle(c, radius * (i / edgesCount), inactiveEdgePaint);
     }
   }
 
