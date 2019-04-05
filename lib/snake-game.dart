@@ -47,13 +47,14 @@ class SnakeGame extends Game {
   }
 
   void render(Canvas canvas) {
-    if (snake.isDead) {
-      restartButton.render(canvas);
-    }
     canvas.translate(cameraPosition.x, cameraPosition.y);
     world.render(canvas);
     snake.render(canvas);
     explosions.forEach((Explosion explosion) => explosion.render(canvas));
+    canvas.translate(-cameraPosition.x, -cameraPosition.y);
+    if (snake.isDead) {
+      restartButton.render(canvas);
+    }
   }
 
   void update(double t) {
