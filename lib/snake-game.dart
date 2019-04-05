@@ -16,7 +16,7 @@ class SnakeGame extends Game {
   final collectionPath = "game";
 
   Size screenSize;
-  var dx, dy;
+  Point<double> cameraPosition;
   World world;
   Snake snake;
   RestartButton restartButton;
@@ -50,7 +50,7 @@ class SnakeGame extends Game {
     if (snake.isDead) {
       restartButton.render(canvas);
     }
-    canvas.translate(dx, dy);
+    canvas.translate(cameraPosition.x, cameraPosition.y);
     world.render(canvas);
     snake.render(canvas);
     explosions.forEach((Explosion explosion) => explosion.render(canvas));
@@ -58,7 +58,7 @@ class SnakeGame extends Game {
 
   void update(double t) {
     updateCamera();
-    if (!snake.isDead && collidesWithWorld()) {
+    if (!snake.isDead && collidesWithWorldEdge()) {
       snake.isDead = true;
       explosions.add(Explosion(snake.head));
     }
@@ -69,9 +69,9 @@ class SnakeGame extends Game {
   }
 
   void updateCamera() {
-    var snakeHead = snake.points.last;
-    dx = -snakeHead.x + screenSize.width / 2;
-    dy = -snakeHead.y + screenSize.height / 2;
+    var dx = -snake.head.x + screenSize.width / 2;
+    var dy = -snake.head.y + screenSize.height / 2;
+    cameraPosition = Point(dx, dy);
   }
 
   void onForce(Force force) {
@@ -85,14 +85,13 @@ class SnakeGame extends Game {
   }
 
   void restartGame() {
-    dx = 0;
-    dy = 0;
+    cameraPosition = Point(0, 0);
     explosions.clear();
     snake = Snake(snake.id, this, center);
     setDefaultSnakeLength(snake.id);
   }
 
-  bool collidesWithWorld() {
+  bool collidesWithWorldEdge() {
     var distanceToCenter = snake.head.distanceTo(world.center);
     return distanceToCenter + snake.radius >= world.radius - world.stroke / 2;
   }
