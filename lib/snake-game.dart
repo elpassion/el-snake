@@ -65,7 +65,7 @@ class SnakeGame extends Game {
     world.update(t);
     snake.update(t);
     explosions.forEach((Explosion explosion) => explosion.update(t));
-    increaseSnakeLength(snake.id, snake.length);
+//    increaseSnakeLength(snake.id, snake.length);
   }
 
   void updateCamera() {
