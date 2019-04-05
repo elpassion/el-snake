@@ -1,9 +1,11 @@
 import 'dart:math';
 import 'dart:ui';
 
+import 'package:el_snake/material.dart';
 import 'package:flutter/cupertino.dart';
 
 class Circle {
+  final String snakeId;
   final Point<double> center;
   final double radius;
   final Material fill;
@@ -12,7 +14,7 @@ class Circle {
   Paint fillPaint;
   Paint strokePaint;
 
-  Circle(this.center, this.radius, this.fill, this.stroke) {
+  Circle(this.center, this.radius, this.fill, this.stroke, this.snakeId) {
     if (fill != null) {
       fillPaint = Paint()..color = fill.color;
     }
@@ -47,19 +49,4 @@ class Circle {
     }
     return false;
   }
-}
-
-class Material {
-  final double alpha; // 0..1
-  final double hue; // 0..360
-  final double saturation; // 0..1
-  final double lightness; // 0.1
-  final bool deadly;
-  final double thickness;
-
-  Material(this.alpha, this.hue, this.saturation, this.lightness, this.deadly,
-      this.thickness);
-
-  Color get color =>
-      HSLColor.fromAHSL(alpha, hue, saturation, lightness).toColor();
 }
