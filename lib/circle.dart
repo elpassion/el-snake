@@ -29,14 +29,36 @@ class Circle {
       canvas.drawCircle(Offset(center.x, center.y), radius, strokePaint);
     }
   }
+
+  bool collidesWith(Point<double> otherCenter, double otherRadius) {
+    var margin = 0.0;
+    if (stroke.deadly) {
+      margin = stroke.thickness / 2;
+    }
+    if (stroke.deadly || fill.deadly) {
+      var centersDistance = center.distanceTo(otherCenter);
+      var outCirclesDistance = centersDistance - radius - otherRadius - margin;
+      if (outCirclesDistance <= 0) {
+        return true;
+      } else {
+        var inCirclesDistance = radius - centersDistance - otherRadius - margin;
+        return inCirclesDistance <= 0;
+      }
+    }
+    return false;
+  }
 }
 
 class Material {
-  double alpha; // 0..1
-  double hue; // 0..360
-  double saturation; // 0..1
-  double lightness; // 0.1
-  bool deadly;
+  final double alpha; // 0..1
+  final double hue; // 0..360
+  final double saturation; // 0..1
+  final double lightness; // 0.1
+  final bool deadly;
+  final double thickness;
+
+  Material(this.alpha, this.hue, this.saturation, this.lightness, this.deadly,
+      this.thickness);
 
   Color get color =>
       HSLColor.fromAHSL(alpha, hue, saturation, lightness).toColor();
