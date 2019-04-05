@@ -2,6 +2,7 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:el_snake/firebase-client.dart';
 import 'package:el_snake/explosion.dart';
 import 'package:el_snake/force.dart';
 import 'package:el_snake/restart-button.dart';
@@ -21,6 +22,7 @@ class SnakeGame extends Game {
   Snake snake;
   RestartButton restartButton;
   List<Explosion> explosions = [];
+  FirebaseClient client;
 
   Point<double> get center =>
       Point(screenSize.width / 2, screenSize.height / 2);
@@ -30,15 +32,11 @@ class SnakeGame extends Game {
   }
 
   void initialize() async {
+    client = FirebaseClient();
     resize(await Flame.util.initialDimensions());
     world = World(center, 750.0);
     snake = Snake("id", this, center);
-//    Firestore.instance.collection(collectionPath).snapshots().listen(this.onDataLoaded);
     restartButton = RestartButton(center);
-  }
-
-  void onDataLoaded(QuerySnapshot event) {
-//    snake = Snake(event.documents.last.documentID, this, center);
   }
 
   void resize(Size size) {
@@ -47,13 +45,14 @@ class SnakeGame extends Game {
   }
 
   void render(Canvas canvas) {
-    if (snake.isDead) {
-      restartButton.render(canvas);
-    }
     canvas.translate(cameraPosition.x, cameraPosition.y);
     world.render(canvas);
     snake.render(canvas);
     explosions.forEach((Explosion explosion) => explosion.render(canvas));
+    canvas.translate(-cameraPosition.x, -cameraPosition.y);
+    if (snake.isDead) {
+      restartButton.render(canvas);
+    }
   }
 
   void update(double t) {
@@ -75,7 +74,7 @@ class SnakeGame extends Game {
   }
 
   void onForce(Force force) {
-    snake?.velocity = Point(force.x * forceFactor, -force.y * forceFactor);
+    snake?.velocity = Point(-force.x * forceFactor, force.y * forceFactor);
   }
 
   void onTapDown(TapDownDetails tap) {

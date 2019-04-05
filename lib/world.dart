@@ -58,8 +58,8 @@ class World {
       var x = random.nextInt(radius.toInt() * 2) - center.x;
       var y = random.nextInt(radius.toInt() * 2) - center.y;
       var velocity =
-          Point(random.nextDouble() * 50 - 25, random.nextDouble() * 50 - 25);
-      stars.add(Star(Point(x, y), velocity, (random.nextDouble() * 3) + 1));
+          Point(random.nextDouble() * 100 - 50, random.nextDouble() * 100 - 50);
+      stars.add(Star(Point(x, y), velocity, (random.nextDouble() * 4) + 1));
     }
   }
 
