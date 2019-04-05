@@ -26,15 +26,17 @@ class FirebaseClient {
   }
 
   void updateMyCircles() async {
-    /*var querySnapshot = await Firestore.instance
+    var querySnapshot = await Firestore.instance
         .collection(collectionPath)
         .where("snake_id", isEqualTo: snake.id)
         .getDocuments();
 
-    querySnapshot.documents
-        .forEach((doc) => Firestore.instance.document(doc.documentID).delete());*/
+    var documents = querySnapshot.documents;
+    for (var i = 0; i < documents.length; i++) {
+      await Firestore.instance.document(collectionPath + "/" + documents[i].documentID).delete();
+    }
 
-    Firestore.instance
+    await Firestore.instance
         .collection(collectionPath)
         .document()
         .setData(fromCircle(snake.head))

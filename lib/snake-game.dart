@@ -24,7 +24,7 @@ class SnakeGame extends Game {
   RestartButton restartButton;
   List<Explosion> explosions = [];
   FirebaseClient client;
-  int magicCounter = 100;
+  int magicCounter = 200;
 
   Point<double> get center =>
       Point(screenSize.width / 2, screenSize.height / 2);
@@ -68,7 +68,7 @@ class SnakeGame extends Game {
     explosions.forEach((Explosion explosion) => explosion.update(t));
 //    increaseSnakeLength(snake.id, snake.length);
     if (magicCounter <= 0) {
-      magicCounter = 100;
+      magicCounter = 200;
       client.updateMyCircles();
     } else {
       magicCounter--;
