@@ -13,13 +13,10 @@ class FirebaseClient {
 
   void onDataLoaded(QuerySnapshot event) {
     print(event.documents.first.data);
-    List<Circle> circles = [];
-    event.documents.forEach((DocumentSnapshot snapshot) {
-      var circle = createCircle(snapshot.data);
-      if (circle != null) {
-        circles.add(circle);
-      }
-    });
+    List<Circle> circles = event.documents
+        .map((DocumentSnapshot snapshot) => createCircle(snapshot.data))
+        .where((Circle circle) => circle != null && circle.radius != null)
+        .toList();
     print("circles: $circles");
   }
 
