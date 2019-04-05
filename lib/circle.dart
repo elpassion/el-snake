@@ -32,21 +32,31 @@ class Circle {
     }
   }
 
-  bool collidesWith(Point<double> otherCenter, double otherRadius) {
-    var margin = 0.0;
+  bool collidesWith(Circle other) {
+    /*var margin = 0.0;
     if (stroke.deadly) {
       margin = stroke.thickness / 2;
-    }
-    if (stroke.deadly || fill.deadly) {
-      var centersDistance = center.distanceTo(otherCenter);
-      var outCirclesDistance = centersDistance - radius - otherRadius - margin;
+    }*/
+    if (fill.deadly) {
+      var centersDistance = center.distanceTo(other.center);
+      var outCirclesDistance = centersDistance - radius - other.radius;
       if (outCirclesDistance <= 0) {
         return true;
       } else {
-        var inCirclesDistance = radius - centersDistance - otherRadius - margin;
-        return inCirclesDistance <= 0;
+        return false;
       }
     }
     return false;
+    /*if (stroke.deadly || fill.deadly) {
+      var centersDistance = center.distanceTo(other.center);
+      var outCirclesDistance = centersDistance - radius - other.radius - margin;
+      if (outCirclesDistance <= 0) {
+        return true;
+      } else {
+        var inCirclesDistance = radius - centersDistance - other.radius - margin;
+        return inCirclesDistance <= 0;
+      }
+    }
+    return false;*/
   }
 }

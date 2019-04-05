@@ -19,10 +19,9 @@ class FirebaseClient {
   }
 
   void onDataLoaded(QuerySnapshot event) {
-    print(event.documents.first.data);
     game.circles = event.documents
         .map((DocumentSnapshot snapshot) => toCircle(snapshot.data))
-        .where((Circle circle) => circle != null && circle.radius != null)
+        .where((Circle circle) => circle != null && circle.snakeId != snake.id)
         .toList();
   }
 

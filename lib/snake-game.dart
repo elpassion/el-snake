@@ -1,7 +1,6 @@
 import 'dart:math';
 import 'dart:ui';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:el_snake/circle.dart';
 import 'package:el_snake/explosion.dart';
 import 'package:el_snake/firebase-client.dart';
@@ -26,7 +25,7 @@ class SnakeGame extends Game {
   List<Circle> circles = [];
   List<Explosion> explosions = [];
   FirebaseClient client;
-  int magicCounter = 200;
+  int magicCounter = 20;
 
   Point<double> get center =>
       Point(screenSize.width / 2, screenSize.height / 2);
@@ -62,19 +61,26 @@ class SnakeGame extends Game {
 
   void update(double t) {
     updateCamera();
-    if (!snake.isDead && collidesWithWorldEdge()) {
+    if (!snake.isDead && (collidesWithWorldEdge() || collidesWithDeadlyCircle())) {
       snake.isDead = true;
       explosions.add(Explosion(snake.head.center));
     }
     world.update(t);
     snake.update(t);
     explosions.forEach((Explosion explosion) => explosion.update(t));
-//    increaseSnakeLength(snake.id, snake.length);
     if (magicCounter <= 0) {
-      magicCounter = 200;
+      magicCounter = 20;
       client.updateMyCircles();
     } else {
       magicCounter--;
+    }
+  }
+
+  bool collidesWithDeadlyCircle() {
+    if (snake.head.center.distanceTo(world.center) > snake.head.radius * 3) {
+      return circles.any((Circle c) => snake.head.collidesWith(c));
+    } else {
+      return false;
     }
   }
 
@@ -98,33 +104,10 @@ class SnakeGame extends Game {
     cameraPosition = Point(0, 0);
     explosions.clear();
     snake = Snake(snake.id, this, center);
-    setDefaultSnakeLength(snake.id);
   }
 
   bool collidesWithWorldEdge() {
     var distanceToCenter = snake.head.center.distanceTo(world.center);
     return distanceToCenter + snake.radius >= world.radius - world.stroke / 2;
-  }
-
-  void onDataChanged(QuerySnapshot event) {
-    print(event);
-  }
-
-  void increaseSnakeLength(String documentId, int snakeLength) {
-    var data = Map<String, int>();
-    data["length"] = snakeLength++;
-    Firestore.instance
-        .collection(collectionPath)
-        .document(documentId)
-        .updateData(data);
-  }
-
-  void setDefaultSnakeLength(String documentId) {
-    var data = Map<String, int>();
-    data["length"] = 0;
-    Firestore.instance
-        .collection(collectionPath)
-        .document(documentId)
-        .updateData(data);
   }
 }
