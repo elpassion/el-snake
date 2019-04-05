@@ -23,8 +23,8 @@ class Snake {
   Snake(id, this.game, Point<double> startPoint) {
     this.id = id;
     circles = [
-      Circle(startPoint, radius, Material(0, 0, 0, 0, false, 0),
-          Material(0, 0, 0, 0, false, 0), id)
+      Circle(startPoint, radius, Material(1.0, 0.5, 0.5, 0.5, false, 0),
+          Material(1.0, 0.5, 0.5, 0.5, false, 0), id)
     ];
     velocity = Point(0, 0);
     headPaint.style = PaintingStyle.fill;
