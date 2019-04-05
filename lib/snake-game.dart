@@ -75,7 +75,7 @@ class SnakeGame extends Game {
   }
 
   void onForce(Force force) {
-    snake?.velocity = Point(force.x * forceFactor, -force.y * forceFactor);
+    snake?.velocity = Point(-force.x * forceFactor, force.y * forceFactor);
   }
 
   void onTapDown(TapDownDetails tap) {
