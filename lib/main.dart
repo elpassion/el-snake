@@ -11,11 +11,9 @@ void main() async {
   Util flameUtil = Util();
   await flameUtil.fullScreen();
   await flameUtil.setOrientation(DeviceOrientation.portraitUp);
-  
-  Flame.images.loadAll(<String>[
-    'restart-button.png'
-  ]);
-  
+
+  Flame.images.loadAll(<String>['restart-button.png']);
+
   SnakeGame game = SnakeGame();
   TapGestureRecognizer tapper = TapGestureRecognizer();
   tapper.onTapDown = game.onTapDown;

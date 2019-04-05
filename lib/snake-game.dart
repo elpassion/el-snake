@@ -32,12 +32,13 @@ class SnakeGame extends Game {
   void initialize() async {
     resize(await Flame.util.initialDimensions());
     world = World(center, 750.0);
-    Firestore.instance.collection(collectionPath).snapshots().listen(this.onDataLoaded);
+    snake = Snake("id", this, center);
+//    Firestore.instance.collection(collectionPath).snapshots().listen(this.onDataLoaded);
     restartButton = RestartButton(center);
   }
 
   void onDataLoaded(QuerySnapshot event) {
-    snake = Snake(event.documents.last.documentID, this, center);
+//    snake = Snake(event.documents.last.documentID, this, center);
   }
 
   void resize(Size size) {
@@ -61,6 +62,7 @@ class SnakeGame extends Game {
       snake.isDead = true;
       explosions.add(Explosion(snake.head));
     }
+    world.update(t);
     snake.update(t);
     explosions.forEach((Explosion explosion) => explosion.update(t));
     increaseSnakeLength(snake.id, snake.length);
@@ -73,7 +75,7 @@ class SnakeGame extends Game {
   }
 
   void onForce(Force force) {
-    snake.velocity = Point(force.x * forceFactor, -force.y * forceFactor);
+    snake?.velocity = Point(force.x * forceFactor, -force.y * forceFactor);
   }
 
   void onTapDown(TapDownDetails tap) {
